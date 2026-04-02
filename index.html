@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ResumeAI — One Step to Your Dream Job</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+<style>
+:root {
+  --bg: #0d0d1a;
+  --bg2: #12122a;
+  --card: #16163a;
+  --card2: #1e1e45;
+  --border: rgba(120,100,255,0.18);
+  --purple: #7c5cfc;
+  --purple2: #a78bfa;
+  --cyan: #38bdf8;
+  --pink: #f472b6;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --text: #e8e6ff;
+  --muted: #8b87b8;
+  --radius: 18px;
+  --glow: 0 0 32px rgba(124,92,252,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,.font-display{font-family:'Syne',sans-serif;}
+
+/* ── PARTICLES BG ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1);}50%{opacity:.7;transform:scale(1.4);}}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.12;animation:blobmove 12s ease-in-out infinite alternate;}
+@keyframes blobmove{0%{transform:translate(0,0);}100%{transform:translate(40px,30px);}}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;position:relative;z-index:1;animation:fadeIn .45s ease;}
+.screen.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── AUTH ── */
+#screen-auth{
+  align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 80% 70% at 50% 40%,rgba(124,92,252,.22) 0%,transparent 70%);
+}
+.auth-box{
+  background:rgba(22,22,58,.85);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:48px 40px 40px;
+  width:100%;max-width:440px;
+  box-shadow:var(--glow),0 40px 80px rgba(0,0,0,.5);
+  backdrop-filter:blur(16px);
+  text-align:center;
+}
+.auth-logo{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:22px;
+  color:#fff;margin-bottom:24px;
+  box-shadow:0 0 24px rgba(124,92,252,.5);
+}
+.auth-title{font-size:2rem;font-weight:800;line-height:1.15;margin-bottom:10px;}
+.auth-title span{background:linear-gradient(90deg,var(--purple2),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.auth-sub{color:var(--muted);font-size:.95rem;margin-bottom:32px;}
+.btn-auth{
+  width:100%;padding:13px 20px;border-radius:14px;font-size:.97rem;font-weight:500;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  border:1px solid var(--border);background:var(--card2);color:var(--text);
+  transition:all .2s;cursor:pointer;margin-bottom:12px;
+}
+.btn-auth:hover{border-color:var(--purple);box-shadow:0 0 16px rgba(124,92,252,.25);color:#fff;}
+.btn-primary-glow{
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  border:none;color:#fff;font-weight:600;
+}
+.btn-primary-glow:hover{box-shadow:0 0 28px rgba(124,92,252,.5);transform:translateY(-1px);}
+.auth-divider{color:var(--muted);font-size:.85rem;margin:8px 0 16px;}
+
+/* ── NAVBAR ── */
+.app-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:14px 32px;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(13,13,26,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;
+  background:linear-gradient(90deg,var(--purple2),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-tabs-custom{display:flex;gap:6px;}
+.nav-tab-btn{
+  background:transparent;border:none;color:var(--muted);
+  padding:7px 14px;border-radius:10px;font-size:.88rem;cursor:pointer;transition:all .2s;
+}
+.nav-tab-btn:hover,.nav-tab-btn.active-tab{background:var(--card2);color:var(--purple2);}
+
+/* ── MAIN LAYOUT ── */
+#screen-app{flex-direction:column;padding-top:72px;}
+.app-content{flex:1;padding:32px 24px;max-width:900px;width:100%;margin:0 auto;}
+
+/* ── STEP PROGRESS ── */
+.step-progress{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:40px;}
+.step-item{display:flex;flex-direction:column;align-items:center;position:relative;flex:1;max-width:100px;}
+.step-circle{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.88rem;font-family:'Syne',sans-serif;
+  border:2px solid var(--card2);background:var(--card);color:var(--muted);
+  transition:all .35s;position:relative;z-index:2;
+}
+.step-item.done .step-circle{background:var(--green);border-color:var(--green);color:#000;}
+.step-item.active .step-circle{background:linear-gradient(135deg,var(--purple),var(--cyan));border-color:var(--purple2);color:#fff;box-shadow:0 0 16px rgba(124,92,252,.5);}
+.step-label{font-size:.72rem;color:var(--muted);margin-top:6px;white-space:nowrap;}
+.step-item.active .step-label{color:var(--purple2);}
+.step-line{flex:1;height:2px;background:var(--card2);margin:0 -2px;position:relative;top:-10px;z-index:1;transition:background .35s;}
+.step-line.done{background:var(--green);}
+
+/* ── FORM CARD ── */
+.form-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:36px 32px;
+  box-shadow:var(--glow);
+}
+.form-section-title{font-size:1.5rem;font-weight:700;margin-bottom:6px;}
+.form-section-title span{background:linear-gradient(90deg,var(--purple2),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.form-section-sub{color:var(--muted);font-size:.9rem;margin-bottom:28px;}
+
+label.form-label{font-size:.85rem;color:var(--muted);margin-bottom:5px;font-weight:500;}
+.form-control,.form-select{
+  background:var(--bg2);border:1px solid var(--border);color:var(--text);
+  border-radius:11px;padding:11px 15px;font-size:.93rem;
+  transition:border-color .2s,box-shadow .2s;
+}
+.form-control:focus,.form-select:focus{
+  background:var(--bg2);border-color:var(--purple);color:var(--text);
+  box-shadow:0 0 0 3px rgba(124,92,252,.15);outline:none;
+}
+.form-control::placeholder{color:var(--muted);}
+.form-select option{background:var(--bg2);}
+
+/* ── TAG INPUT ── */
+.tag-container{
+  background:var(--bg2);border:1px solid var(--border);border-radius:11px;
+  padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px;min-height:50px;cursor:text;
+  transition:border-color .2s;
+}
+.tag-container:focus-within{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,92,252,.15);}
+.tag-chip{
+  background:linear-gradient(135deg,rgba(124,92,252,.25),rgba(56,189,248,.15));
+  border:1px solid rgba(124,92,252,.3);color:var(--purple2);
+  padding:3px 10px 3px 12px;border-radius:20px;font-size:.82rem;
+  display:flex;align-items:center;gap:6px;
+}
+.tag-chip button{background:none;border:none;color:var(--muted);cursor:pointer;padding:0;font-size:.85rem;line-height:1;}
+.tag-chip button:hover{color:var(--pink);}
+#tagInput{background:none;border:none;outline:none;color:var(--text);font-size:.9rem;min-width:120px;padding:2px 4px;}
+
+/* ── EDUCATION ENTRIES ── */
+.edu-entry{
+  background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:18px;margin-bottom:12px;position:relative;
+}
+.edu-entry .remove-btn{
+  position:absolute;top:12px;right:12px;background:none;border:none;
+  color:var(--muted);cursor:pointer;font-size:1rem;transition:color .2s;
+}
+.edu-entry .remove-btn:hover{color:var(--pink);}
+
+/* ── ROLE SELECTION ── */
+.role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-bottom:24px;}
+.role-card{
+  background:var(--card2);border:1.5px solid var(--border);border-radius:14px;
+  padding:18px 12px;text-align:center;cursor:pointer;transition:all .22s;
+}
+.role-card:hover{border-color:var(--purple);transform:translateY(-2px);}
+.role-card.selected{
+  border-color:var(--purple);background:rgba(124,92,252,.18);
+  box-shadow:0 0 18px rgba(124,92,252,.3);
+}
+.role-icon{font-size:1.6rem;margin-bottom:8px;}
+.role-name{font-size:.82rem;font-weight:600;color:var(--text);}
+
+/* ── LOADING ── */
+#screen-loading{align-items:center;justify-content:center;flex-direction:column;gap:24px;text-align:center;}
+.ai-orb{
+  width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,92,252,.6),rgba(56,189,248,.3),transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  animation:pulse 2s ease-in-out infinite;position:relative;
+}
+.ai-orb::before{
+  content:'';position:absolute;inset:-12px;border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,
+              linear-gradient(135deg,var(--purple),var(--cyan),var(--pink)) border-box;
+  animation:spin 3s linear infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ai-orb i{font-size:2.5rem;color:#fff;z-index:1;}
+.loading-text{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;}
+.loading-sub{color:var(--muted);font-size:.9rem;}
+.loading-dots span{display:inline-block;animation:dot .9s ease-in-out infinite;}
+.loading-dots span:nth-child(2){animation-delay:.2s;}
+.loading-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dot{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
+
+/* ── RESUME OUTPUT ── */
+#screen-resume{flex-direction:column;}
+.resume-wrapper{display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start;}
+@media(max-width:768px){.resume-wrapper{grid-template-columns:1fr;}}
+
+.resume-preview{
+  background:#fff;color:#111;border-radius:var(--radius);
+  padding:40px;font-family:'DM Sans',sans-serif;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);min-height:600px;
+}
+.resume-preview h1{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:2px;}
+.resume-preview .r-contact{font-size:.82rem;color:#555;margin-bottom:18px;}
+.resume-preview .r-section-title{
+  font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:#7c5cfc;
+  border-bottom:2px solid #e8e2ff;padding-bottom:4px;margin:18px 0 10px;
+}
+.resume-preview .r-summary{font-size:.88rem;line-height:1.65;color:#333;}
+.resume-preview .r-job-title{font-size:.88rem;font-weight:600;color:#1a1a2e;}
+.resume-preview .r-meta{font-size:.8rem;color:#777;margin-bottom:4px;}
+.resume-preview ul{padding-left:18px;margin-top:4px;}
+.resume-preview ul li{font-size:.85rem;line-height:1.6;color:#444;margin-bottom:2px;}
+.resume-preview .skill-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.resume-preview .skill-tag{
+  background:#f0ebff;color:#6b3ffc;padding:3px 10px;
+  border-radius:20px;font-size:.78rem;font-weight:500;
+}
+
+/* ── ATS PANEL ── */
+.ats-panel{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--glow);position:sticky;top:90px;
+}
+.ats-title{font-size:1rem;font-weight:700;margin-bottom:18px;color:var(--purple2);}
+.ats-score-ring{
+  width:110px;height:110px;margin:0 auto 20px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.ats-score-ring svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.ats-score-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;z-index:1;}
+.ats-bars{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.ats-bar-label{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px;}
+.ats-bar-track{height:6px;background:var(--bg2);border-radius:20px;overflow:hidden;}
+.ats-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width 1s ease;}
+
+.action-btns{display:flex;flex-direction:column;gap:10px;}
+.btn-glow{
+  width:100%;padding:11px;border-radius:12px;font-size:.9rem;font-weight:600;
+  border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-glow-purple{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;}
+.btn-glow-purple:hover{box-shadow:0 0 20px rgba(124,92,252,.5);transform:translateY(-1px);}
+.btn-glow-outline{background:transparent;border:1.5px solid var(--border);color:var(--text);}
+.btn-glow-outline:hover{border-color:var(--purple);color:var(--purple2);}
+.btn-glow-green{background:linear-gradient(135deg,#059669,var(--green));color:#fff;}
+.btn-glow-green:hover{box-shadow:0 0 20px rgba(52,211,153,.4);}
+
+/* ── PROFILE DASHBOARD ── */
+#screen-profile{flex-direction:column;}
+.resume-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;}
+.resume-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:20px;transition:all .22s;
+}
+.resume-card:hover{border-color:var(--purple);transform:translateY(-2px);box-shadow:var(--glow);}
+.rc-role{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:4px;}
+.rc-badge{
+  display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;
+  background:rgba(124,92,252,.2);color:var(--purple2);border:1px solid rgba(124,92,252,.3);
+  margin-bottom:12px;
+}
+.rc-date{font-size:.78rem;color:var(--muted);margin-bottom:14px;}
+.rc-score{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:4px;}
+.rc-score-label{font-size:.75rem;color:var(--muted);}
+.rc-actions{display:flex;gap:8px;margin-top:14px;}
+.rc-btn{
+  flex:1;padding:7px;border-radius:9px;font-size:.82rem;font-weight:600;
+  border:none;cursor:pointer;transition:all .2s;
+}
+.rc-view{background:rgba(124,92,252,.2);color:var(--purple2);}
+.rc-view:hover{background:rgba(124,92,252,.35);}
+.rc-del{background:rgba(244,114,182,.12);color:var(--pink);}
+.rc-del:hover{background:rgba(244,114,182,.25);}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-icon{font-size:3rem;margin-bottom:12px;opacity:.4;}
+
+/* ── TOAST ── */
+.toast-notif{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:var(--card2);border:1px solid var(--green);color:var(--text);
+  padding:14px 20px;border-radius:12px;font-size:.9rem;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  animation:slideUp .3s ease;
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.toast-notif.hide{animation:slideDown .3s ease forwards;}
+@keyframes slideDown{to{transform:translateY(20px);opacity:0;}}
+
+/* ── MISC ── */
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.section-header-line{flex:1;height:1px;background:var(--border);}
+.btn-add{
+  background:rgba(124,92,252,.12);border:1px dashed rgba(124,92,252,.35);
+  color:var(--purple2);border-radius:10px;padding:9px 16px;
+  font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;width:100%;
+}
+.btn-add:hover{background:rgba(124,92,252,.22);}
+.btn-next,.btn-prev{
+  padding:12px 28px;border-radius:12px;font-weight:600;font-size:.93rem;
+  border:none;cursor:pointer;transition:all .22s;
+}
+.btn-next{background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;}
+.btn-next:hover{box-shadow:0 0 22px rgba(124,92,252,.5);transform:translateY(-1px);}
+.btn-prev{background:var(--card2);border:1px solid var(--border);color:var(--text);}
+.btn-prev:hover{border-color:var(--purple);}
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;}
+.nav-right{display:flex;gap:10px;}
+
+.welcome-banner{
+  background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(56,189,248,.1));
+  border:1px solid var(--border);border-radius:16px;padding:20px 24px;
+  display:flex;align-items:center;gap:16px;margin-bottom:28px;
+}
+.welcome-avatar{
+  width:48px;height:48px;border-radius:14px;
+  background:linear-gradient(135deg,var(--purple),var(--cyan));
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  flex-shrink:0;
+}
+.welcome-text h3{font-size:1.1rem;font-weight:700;margin-bottom:2px;}
+.welcome-text p{font-size:.85rem;color:var(--muted);}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--card2);border-radius:10px;}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- ════════════════════════════════════════
+     SCREEN 1: AUTH
+════════════════════════════════════════ -->
+<div id="screen-auth" class="screen active">
+  <div class="auth-box">
+    <div class="auth-logo">R</div>
+    <h1 class="auth-title">One Step to Your<br><span>Dream Job</span></h1>
+    <p class="auth-sub">Craft a professional resume in minutes and land your next role with confidence.</p>
+    <button class="btn-auth btn-primary-glow" onclick="startApp()">
+      <i class="bi bi-google"></i> Continue with Google
+    </button>
+    <button class="btn-auth" onclick="startApp()">
+      <i class="bi bi-phone"></i> Sign in with Phone
+    </button>
+    <div class="auth-divider">— or —</div>
+    <button class="btn-auth" onclick="startApp()" style="border-color:var(--purple);color:var(--purple2);">
+      <i class="bi bi-person-circle"></i> Create Account
+    </button>
+    <p style="font-size:.78rem;color:var(--muted);margin-top:16px;">
+      Learn more? <a href="#" onclick="startApp()" style="color:var(--purple2);text-decoration:none;">Create account →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SCREEN 2: MAIN APP (FORM + ROLE)
+════════════════════════════════════════ -->
+<div id="screen-app" class="screen">
+
+  <!-- NAV -->
+  <nav class="app-nav">
+    <div class="nav-logo">ResumeAI</div>
+    <div class="nav-tabs-custom">
+      <button class="nav-tab-btn active-tab" onclick="switchTab('build')"><i class="bi bi-pencil-square me-1"></i>Build</button>
+      <button class="nav-tab-btn" onclick="switchTab('profile')"><i class="bi bi-grid me-1"></i>My Resumes</button>
+    </div>
+    <div style="font-size:.82rem;color:var(--muted);cursor:pointer;" onclick="logout()"><i class="bi bi-box-arrow-right"></i></div>
+  </nav>
+
+  <!-- BUILD TAB -->
+  <div id="tab-build" class="app-content">
+
+    <!-- WELCOME -->
+    <div class="welcome-banner" id="welcomeBanner">
+      <div class="welcome-avatar">✦</div>
+      <div class="welcome-text">
+        <h3 id="welcomeName">Welcome! Let's build your resume.</h3>
+        <p>Fill in your details step by step. It takes under 5 minutes.</p>
+      </div>
+    </div>
+
+    <!-- STEP PROGRESS -->
+    <div class="step-progress" id="stepProgress"></div>
+
+    <!-- FORM STEPS -->
+    <div class="form-card">
+      <!-- STEP 1: PERSONAL -->
+      <div id="step-1" class="step-content">
+        <h2 class="form-section-title"><span>Personal</span> Info</h2>
+        <p class="form-section-sub">Tell us a bit about yourself to get started.</p>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label">Full Name *</label>
+            <input type="text" class="form-control" id="f_name" placeholder="e.g. Alex Johnson"/>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Gender</label>
+            <select class="form-select" id="f_gender">
+              <option value="">Select...</option>
+              <option>Male</option><option>Female</option><option>Others</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Phone *</label>
+            <input type="tel" class="form-control" id="f_phone" placeholder="+91 9876543210"/>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-control" id="f_email" placeholder="alex@email.com"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">LinkedIn Profile</label>
+            <input type="url" class="form-control" id="f_linkedin" placeholder="linkedin.com/in/alex"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" id="f_location" placeholder="Hyderabad, India"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: EDUCATION -->
+      <div id="step-2" class="step-content" style="display:none;">
+        <h2 class="form-section-title"><span>Education</span></h2>
+        <p class="form-section-sub">Add your academic qualifications. You can add multiple entries.</p>
+        <div id="eduEntries"></div>
+        <button class="btn-add" onclick="addEduEntry()"><i class="bi bi-plus-circle me-2"></i>Add Education</button>
+      </div>
+
+      <!-- STEP 3: SKILLS -->
+      <div id="step-3" class="step-content" style="display:none;">
+        <h2 class="form-section-title"><span>Skills</span></h2>
+        <p class="form-section-sub">Type a skill and press <kbd style="background:var(--card2);border-color:var(--border);color:var(--text);">Enter</kbd> to add it.</p>
+        <div class="tag-container" onclick="document.getElementById('tagInput').focus()">
+          <div id="tagChips"></div>
+          <input id="tagInput" placeholder="e.g. Python, Machine Learning…" onkeydown="handleTagInput(event)"/>
+        </div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:8px;"><i class="bi bi-info-circle me-1"></i>Pro tip: More relevant skills = higher ATS score.</p>
+      </div>
+
+      <!-- STEP 4: PROJECTS -->
+      <div id="step-4" class="step-content" style="display:none;">
+        <h2 class="form-section-title"><span>Projects</span></h2>
+        <p class="form-section-sub">Describe your key projects. Include tech stack, outcomes, impact.</p>
+        <textarea class="form-control" id="f_projects" rows="7"
+          placeholder="Project 1: Sales Dashboard&#10;Built with Python & Tableau. Analyzed 50K+ rows of sales data, identified 3 key revenue growth areas. Impact: 20% increase in quarterly sales.&#10;&#10;Project 2: AI Chatbot&#10;Developed using LangChain & GPT-4..."></textarea>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:8px;"><i class="bi bi-lightbulb me-1"></i>Include quantifiable impact where possible.</p>
+      </div>
+
+      <!-- STEP 5: JOB ROLE -->
+      <div id="step-5" class="step-content" style="display:none;">
+        <h2 class="form-section-title">You're Almost There — <span>Select Your Dream Job</span></h2>
+        <p class="form-section-sub">Choose the role you're targeting. This tailors your resume's keywords and summary.</p>
+        <div class="role-grid" id="roleGrid"></div>
+        <div id="customRoleWrap" style="display:none;margin-bottom:20px;">
+          <label class="form-label">Enter Custom Role</label>
+          <input type="text" class="form-control" id="customRoleInput" placeholder="e.g. Machine Learning Engineer"/>
+        </div>
+        <button class="btn-next w-100" onclick="generateResume()" id="genBtn" style="font-size:1rem;padding:15px;">
+          <i class="bi bi-stars me-2"></i>Generate My Resume
+        </button>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div class="step-nav" id="stepNav">
+        <button class="btn-prev" id="prevBtn" onclick="prevStep()" style="visibility:hidden;"><i class="bi bi-arrow-left me-1"></i>Previous</button>
+        <div class="nav-right">
+          <button class="btn-prev" onclick="saveFormData()"><i class="bi bi-floppy me-1"></i>Save</button>
+          <button class="btn-next" id="nextBtn" onclick="nextStep()">Next <i class="bi bi-arrow-right ms-1"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE TAB -->
+  <div id="tab-profile" class="app-content" style="display:none;"></div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SCREEN 3: LOADING
+════════════════════════════════════════ -->
+<div id="screen-loading" class="screen" style="flex-direction:column;">
+  <div class="ai-orb"><i class="bi bi-file-earmark-person"></i></div>
+  <div class="loading-text">Crafting Your Resume<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+  <div class="loading-sub">Our AI is analysing your profile to match job requirements.</div>
+  <div style="width:260px;margin-top:24px;">
+    <div class="progress" style="height:4px;background:var(--card2);">
+      <div class="progress-bar" id="loadProgress" style="width:0%;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width .3s;border-radius:20px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SCREEN 4: RESUME OUTPUT
+════════════════════════════════════════ -->
+<div id="screen-resume" class="screen" style="flex-direction:column;padding-top:0;">
+  <nav class="app-nav">
+    <div class="nav-logo">ResumeAI</div>
+    <button class="btn-prev" style="font-size:.85rem;" onclick="showScreen('screen-app');switchTab('build')">
+      <i class="bi bi-arrow-left me-1"></i>Back
+    </button>
+    <div class="nav-tabs-custom">
+      <button class="nav-tab-btn" onclick="showScreen('screen-app');switchTab('profile')"><i class="bi bi-grid me-1"></i>My Resumes</button>
+    </div>
+  </nav>
+  <div class="app-content" style="max-width:1000px;padding-top:32px;">
+    <div style="margin-bottom:20px;">
+      <h2 class="form-section-title"><span>Your Resume</span> is Ready ✦</h2>
+      <p style="color:var(--muted);font-size:.9rem;">Review your ATS-optimised resume. Download or save it to your profile.</p>
+    </div>
+    <div class="resume-wrapper">
+      <div id="resumePreview" class="resume-preview"></div>
+      <div class="ats-panel">
+        <div class="ats-title"><i class="bi bi-speedometer2 me-2"></i>ATS Score Panel</div>
+        <div class="ats-score-ring">
+          <svg width="110" height="110" viewBox="0 0 110 110">
+            <circle cx="55" cy="55" r="46" fill="none" stroke="var(--card2)" stroke-width="8"/>
+            <circle id="atsArc" cx="55" cy="55" r="46" fill="none" stroke="url(#atsGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/>
+            <defs>
+              <linearGradient id="atsGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--purple)"/>
+                <stop offset="100%" stop-color="var(--cyan)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div id="atsScoreNum" class="ats-score-num">0</div>
+        </div>
+        <div class="ats-bars" id="atsBars"></div>
+        <div class="action-btns">
+          <button class="btn-glow btn-glow-purple" onclick="downloadPDF()"><i class="bi bi-download me-1"></i>Download PDF</button>
+          <button class="btn-glow btn-glow-green" onclick="saveResume()"><i class="bi bi-floppy me-1"></i>Save Resume</button>
+          <button class="btn-glow btn-glow-outline" onclick="showScreen('screen-app');switchTab('build')"><i class="bi bi-pencil me-1"></i>Edit Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ════════ STATE ════════ */
+let currentStep = 1;
+const TOTAL_STEPS = 5;
+let skills = [];
+let selectedRole = '';
+let generatedResume = null;
+let atsScore = 0;
+
+const ROLES = [
+  {id:'data-analyst',name:'Data Analyst',icon:'📊'},
+  {id:'software-eng',name:'Software Engineer',icon:'💻'},
+  {id:'prompt-eng',name:'Prompt Engineer',icon:'🤖'},
+  {id:'data-sci',name:'Data Scientist',icon:'🔬'},
+  {id:'genai-eng',name:'GenAI Engineer',icon:'✨'},
+  {id:'ai-eng',name:'AI Engineer',icon:'🧠'},
+  {id:'custom',name:'Custom Role',icon:'⚙️'},
+];
+
+const STEP_LABELS = ['Personal','Education','Skills','Projects','Job Role'];
+
+/* ════════ PARTICLES ════════ */
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<55;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2.5+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${-Math.random()*4}s;`;
+    c.appendChild(s);
+  }
+  const cols=['#7c5cfc','#38bdf8','#f472b6'];
+  cols.forEach((col,i)=>{
+    const b=document.createElement('div');b.className='blob';
+    b.style.cssText=`width:${300+i*80}px;height:${250+i*60}px;background:${col};left:${10+i*30}%;top:${20+i*20}%;animation-delay:${i*2}s;`;
+    c.appendChild(b);
+  });
+})();
+
+/* ════════ SCREEN ════════ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
+  const s=document.getElementById(id);
+  s.style.display='flex';
+  requestAnimationFrame(()=>s.classList.add('active'));
+}
+
+/* ════════ AUTH ════════ */
+function startApp(){
+  showScreen('screen-app');
+  initStepProgress();
+  initEduEntries();
+  initRoleGrid();
+  loadFormData();
+}
+
+function logout(){
+  showScreen('screen-auth');
+}
+
+/* ════════ TABS ════════ */
+function switchTab(tab){
+  document.querySelectorAll('.nav-tab-btn').forEach(b=>b.classList.remove('active-tab'));
+  event && event.target && event.target.classList.add('active-tab');
+  document.getElementById('tab-build').style.display = tab==='build'?'block':'none';
+  document.getElementById('tab-profile').style.display = tab==='profile'?'block':'none';
+  if(tab==='profile') renderProfile();
+}
+
+/* ════════ STEP PROGRESS ════════ */
+function initStepProgress(){
+  const wrap=document.getElementById('stepProgress');
+  wrap.innerHTML='';
+  STEP_LABELS.forEach((label,i)=>{
+    const n=i+1;
+    if(i>0){const line=document.createElement('div');line.className='step-line';line.id=`line-${n}`;wrap.appendChild(line);}
+    const item=document.createElement('div');item.className='step-item';item.id=`step-item-${n}`;
+    item.innerHTML=`<div class="step-circle" id="step-circle-${n}">${n}</div><div class="step-label">${label}</div>`;
+    wrap.appendChild(item);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  for(let i=1;i<=TOTAL_STEPS;i++){
+    const item=document.getElementById(`step-item-${i}`);
+    const circle=document.getElementById(`step-circle-${i}`);
+    item.classList.remove('done','active');
+    if(i<currentStep){item.classList.add('done');circle.innerHTML='<i class="bi bi-check2" style="font-size:.9rem;"></i>';}
+    else if(i===currentStep){item.classList.add('active');circle.textContent=i;}
+    else{circle.textContent=i;}
+    if(i>1){
+      const line=document.getElementById(`line-${i}`);
+      line&&(i<=currentStep?line.classList.add('done'):line.classList.remove('done'));
+    }
+  }
+  document.getElementById('prevBtn').style.visibility = currentStep===1?'hidden':'visible';
+  document.getElementById('nextBtn').style.display = currentStep===TOTAL_STEPS?'none':'inline-flex';
+  document.getElementById('stepNav').style.display = currentStep===TOTAL_STEPS?'none':'flex';
+}
+
+/* ════════ STEP NAV ════════ */
+function nextStep(){
+  if(!validateStep()) return;
+  if(currentStep<TOTAL_STEPS){
+    document.getElementById(`step-${currentStep}`).style.display='none';
+    currentStep++;
+    document.getElementById(`step-${currentStep}`).style.display='block';
+    updateProgress();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+function prevStep(){
+  if(currentStep>1){
+    document.getElementById(`step-${currentStep}`).style.display='none';
+    currentStep--;
+    document.getElementById(`step-${currentStep}`).style.display='block';
+    updateProgress();
+  }
+}
+
+function validateStep(){
+  if(currentStep===1){
+    const name=document.getElementById('f_name').value.trim();
+    const email=document.getElementById('f_email').value.trim();
+    const phone=document.getElementById('f_phone').value.trim();
+    if(!name){toast('Please enter your name','warning');return false;}
+    if(!email||!email.includes('@')){toast('Please enter a valid email','warning');return false;}
+    if(!phone){toast('Please enter your phone number','warning');return false;}
+  }
+  return true;
+}
+
+/* ════════ EDUCATION ════════ */
+function initEduEntries(){
+  const saved = JSON.parse(localStorage.getItem('edu_entries')||'[]');
+  const wrap=document.getElementById('eduEntries');
+  wrap.innerHTML='';
+  if(saved.length===0) addEduEntry(); else saved.forEach(e=>addEduEntry(e));
+}
+
+function addEduEntry(data={}){
+  const wrap=document.getElementById('eduEntries');
+  const id='edu_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  const div=document.createElement('div');div.className='edu-entry';div.id=id;
+  div.innerHTML=`
+    <button class="remove-btn" onclick="removeEdu('${id}')"><i class="bi bi-x-lg"></i></button>
+    <div class="row g-2">
+      <div class="col-12 col-md-6">
+        <label class="form-label">University / Institution</label>
+        <input type="text" class="form-control edu-univ" placeholder="e.g. IIT Hyderabad" value="${data.univ||''}"/>
+      </div>
+      <div class="col-12 col-md-6">
+        <label class="form-label">Course / Degree</label>
+        <input type="text" class="form-control edu-course" placeholder="e.g. B.Tech Computer Science" value="${data.course||''}"/>
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="form-label">Year</label>
+        <input type="text" class="form-control edu-year" placeholder="2024" value="${data.year||''}"/>
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="form-label">CGPA / %</label>
+        <input type="text" class="form-control edu-cgpa" placeholder="8.5" value="${data.cgpa||''}"/>
+      </div>
+    </div>`;
+  wrap.appendChild(div);
+}
+
+function removeEdu(id){
+  const el=document.getElementById(id);
+  if(el && document.querySelectorAll('.edu-entry').length>1) el.remove();
+  else toast('At least one education entry is required','warning');
+}
+
+function getEduData(){
+  return Array.from(document.querySelectorAll('.edu-entry')).map(e=>({
+    univ:e.querySelector('.edu-univ').value.trim(),
+    course:e.querySelector('.edu-course').value.trim(),
+    year:e.querySelector('.edu-year').value.trim(),
+    cgpa:e.querySelector('.edu-cgpa').value.trim(),
+  }));
+}
+
+/* ════════ TAGS ════════ */
+function handleTagInput(e){
+  if(e.key==='Enter'||e.key===','){
+    e.preventDefault();
+    const val=e.target.value.trim().replace(/,$/,'');
+    if(val && !skills.includes(val)){skills.push(val);renderTags();}
+    e.target.value='';
+  } else if(e.key==='Backspace' && !e.target.value && skills.length){
+    skills.pop();renderTags();
+  }
+}
+
+function renderTags(){
+  const wrap=document.getElementById('tagChips');
+  wrap.innerHTML=skills.map((s,i)=>`
+    <div class="tag-chip">${s}<button onclick="removeTag(${i})"><i class="bi bi-x"></i></button></div>`).join('');
+}
+
+function removeTag(i){skills.splice(i,1);renderTags();}
+
+/* ════════ ROLE GRID ════════ */
+function initRoleGrid(){
+  const grid=document.getElementById('roleGrid');
+  grid.innerHTML=ROLES.map(r=>`
+    <div class="role-card" id="rc-${r.id}" onclick="selectRole('${r.id}','${r.name}')">
+      <div class="role-icon">${r.icon}</div>
+      <div class="role-name">${r.name}</div>
+    </div>`).join('');
+}
+
+function selectRole(id,name){
+  document.querySelectorAll('.role-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('rc-'+id).classList.add('selected');
+  selectedRole=name;
+  document.getElementById('customRoleWrap').style.display = id==='custom'?'block':'none';
+  if(id==='custom') document.getElementById('customRoleInput').focus();
+}
+
+/* ════════ SAVE FORM ════════ */
+function saveFormData(){
+  const data={
+    name:document.getElementById('f_name').value.trim(),
+    gender:document.getElementById('f_gender').value,
+    phone:document.getElementById('f_phone').value.trim(),
+    email:document.getElementById('f_email').value.trim(),
+    linkedin:document.getElementById('f_linkedin').value.trim(),
+    location:document.getElementById('f_location').value.trim(),
+    projects:document.getElementById('f_projects').value.trim(),
+  };
+  localStorage.setItem('resume_form',JSON.stringify(data));
+  localStorage.setItem('edu_entries',JSON.stringify(getEduData()));
+  localStorage.setItem('skills',JSON.stringify(skills));
+  const name=data.name||'there';
+  document.getElementById('welcomeName').textContent=`Welcome back, ${name}! 👋`;
+  toast('Progress saved!','success');
+}
+
+function loadFormData(){
+  const data=JSON.parse(localStorage.getItem('resume_form')||'{}');
+  const savedSkills=JSON.parse(localStorage.getItem('skills')||'[]');
+  if(data.name) document.getElementById('f_name').value=data.name;
+  if(data.gender) document.getElementById('f_gender').value=data.gender;
+  if(data.phone) document.getElementById('f_phone').value=data.phone;
+  if(data.email) document.getElementById('f_email').value=data.email;
+  if(data.linkedin) document.getElementById('f_linkedin').value=data.linkedin;
+  if(data.location) document.getElementById('f_location').value=data.location;
+  if(data.projects) document.getElementById('f_projects').value=data.projects;
+  if(data.name) document.getElementById('welcomeName').textContent=`Welcome back, ${data.name}! 👋`;
+  skills=savedSkills;
+  renderTags();
+}
+
+/* ════════ GENERATE RESUME ════════ */
+function generateResume(){
+  if(selectedRole==='custom'){
+    const cv=document.getElementById('customRoleInput').value.trim();
+    if(!cv){toast('Please enter a custom role','warning');return;}
+    selectedRole=cv;
+  }
+  if(!selectedRole){toast('Please select a job role','warning');return;}
+  saveFormData();
+  showScreen('screen-loading');
+  animateLoading();
+  setTimeout(()=>{
+    buildResume();
+    showScreen('screen-resume');
+  },3200);
+}
+
+function animateLoading(){
+  const bar=document.getElementById('loadProgress');
+  let p=0;
+  const iv=setInterval(()=>{
+    p+=Math.random()*18+5;
+    if(p>=100){p=100;clearInterval(iv);}
+    bar.style.width=p+'%';
+  },300);
+}
+
+/* ════════ BUILD RESUME ════════ */
+function buildResume(){
+  const form=JSON.parse(localStorage.getItem('resume_form')||'{}');
+  const edu=JSON.parse(localStorage.getItem('edu_entries')||'[]');
+  const sk=JSON.parse(localStorage.getItem('skills')||'[]');
+
+  const name=form.name||'Your Name';
+  const email=form.email||'email@example.com';
+  const phone=form.phone||'';
+  const location=form.location||'';
+  const linkedin=form.linkedin||'';
+  const projects=form.projects||'';
+
+  // ATS score
+  let score=40;
+  score += Math.min(sk.length*4,24);
+  if(projects.length>100) score+=10;
+  if(edu.length>0 && edu[0].univ) score+=6;
+  if(linkedin) score+=5;
+  if(form.location) score+=3;
+  const roleKW=selectedRole.toLowerCase();
+  sk.forEach(s=>{if(s.toLowerCase().includes(roleKW.split(' ')[0])) score+=3;});
+  score=Math.min(score,99);
+  atsScore=score;
+
+  const summary=generateSummary(name,selectedRole,sk,edu);
+
+  const html=`
+    <h1>${name}</h1>
+    <div class="r-contact">${email}${phone?' · '+phone:''}${location?' · '+location:''}${linkedin?' · '+linkedin:''}</div>
+    <div class="r-section-title">Professional Summary</div>
+    <div class="r-summary">${summary}</div>
+    ${sk.length?`<div class="r-section-title">Skills</div><div class="skill-tags">${sk.map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>`:''}
+    ${edu.length?`<div class="r-section-title">Education</div>${edu.filter(e=>e.univ||e.course).map(e=>`
+      <div class="r-job-title">${e.course||'—'}</div>
+      <div class="r-meta">${e.univ||''}${e.year?' · '+e.year:''}${e.cgpa?' · CGPA: '+e.cgpa:''}</div>`).join('')}`:''}
+    ${projects?`<div class="r-section-title">Projects</div>${projects.split('\n').filter(l=>l.trim()).map(l=>`<div style="font-size:.85rem;line-height:1.65;color:#444;margin-bottom:4px;">${l}</div>`).join('')}`:''}
+  `;
+
+  document.getElementById('resumePreview').innerHTML=html;
+  generatedResume={html,name,role:selectedRole,score,date:new Date().toLocaleDateString()};
+  renderAtsPanel(score);
+}
+
+function generateSummary(name,role,skills,edu){
+  const degree=edu.length && edu[0].course ? edu[0].course : 'relevant field';
+  const topSkills=skills.slice(0,4).join(', ');
+  return `Results-driven ${role} with a strong foundation in ${degree}. Skilled in ${topSkills||'problem-solving and analytical thinking'}, with a proven ability to deliver high-impact solutions. Passionate about leveraging data and technology to drive meaningful outcomes. Seeking a challenging ${role} role to contribute technical expertise and innovative thinking.`;
+}
+
+function renderAtsPanel(score){
+  const arc=document.getElementById('atsArc');
+  const num=document.getElementById('atsScoreNum');
+  const circumference=289;
+  const offset=circumference*(1-score/100);
+  setTimeout(()=>{
+    arc.style.transition='stroke-dashoffset 1.2s ease';
+    arc.style.strokeDashoffset=offset;
+    let n=0;const iv=setInterval(()=>{n+=2;num.textContent=Math.min(n,score);if(n>=score)clearInterval(iv);},20);
+  },200);
+
+  const bars=[
+    {label:'Skills Coverage',val:Math.min(skills.length*8,95)},
+    {label:'Formatting',val:90},
+    {label:'Keyword Impact',val:Math.round(score*0.95)},
+  ];
+  document.getElementById('atsBars').innerHTML=bars.map(b=>`
+    <div>
+      <div class="ats-bar-label"><span>${b.label}</span><span style="color:var(--purple2)">${b.val}%</span></div>
+      <div class="ats-bar-track"><div class="ats-bar-fill" style="width:0%" data-val="${b.val}"></div></div>
+    </div>`).join('');
+  setTimeout(()=>{document.querySelectorAll('.ats-bar-fill').forEach(f=>{f.style.width=f.dataset.val+'%';});},400);
+}
+
+/* ════════ DOWNLOAD PDF ════════ */
+async function downloadPDF(){
+  const el=document.getElementById('resumePreview');
+  toast('Preparing PDF…','info');
+  try{
+    const canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#fff'});
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF('p','mm','a4');
+    const w=pdf.internal.pageSize.getWidth();
+    const h=(canvas.height*w)/canvas.width;
+    pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,w,h);
+    pdf.save(`resume_${(generatedResume?.name||'resume').replace(/\s/g,'_')}.pdf`);
+    toast('PDF downloaded!','success');
+  }catch(e){toast('Download failed. Try again.','warning');}
+}
+
+/* ════════ SAVE RESUME ════════ */
+function saveResume(){
+  if(!generatedResume){toast('No resume to save','warning');return;}
+  const saved=JSON.parse(localStorage.getItem('saved_resumes')||'[]');
+  generatedResume.id='r_'+Date.now();
+  saved.unshift(generatedResume);
+  localStorage.setItem('saved_resumes',JSON.stringify(saved));
+  toast('Resume saved to your profile!','success');
+}
+
+/* ════════ PROFILE ════════ */
+function renderProfile(){
+  const wrap=document.getElementById('tab-profile');
+  const saved=JSON.parse(localStorage.getItem('saved_resumes')||'[]');
+  const user=JSON.parse(localStorage.getItem('resume_form')||'{}');
+  const uname=user.name||'there';
+  let html=`<div class="welcome-banner"><div class="welcome-avatar">👋</div>
+    <div class="welcome-text"><h3>Welcome, ${uname}! | Your Resumes</h3>
+    <p>${saved.length} saved resume${saved.length!==1?'s':''} found in your profile.</p></div></div>`;
+  if(saved.length===0){
+    html+=`<div class="empty-state"><div class="empty-icon"><i class="bi bi-file-earmark-x"></i></div>
+      <p>No resumes saved yet.</p>
+      <button class="btn-next mt-3" onclick="switchTab('build')">Build Your First Resume</button></div>`;
+  } else {
+    html+=`<div class="resume-cards-grid">${saved.map(r=>`
+      <div class="resume-card">
+        <div class="rc-role">${r.role}</div>
+        <div class="rc-badge">ATS Score</div>
+        <div class="rc-score" style="color:${r.score>=80?'var(--green)':r.score>=60?'var(--gold)':'var(--pink)'}">${r.score}</div>
+        <div class="rc-score-label">out of 100</div>
+        <div class="rc-date"><i class="bi bi-calendar3 me-1"></i>${r.date}</div>
+        <div class="rc-actions">
+          <button class="rc-btn rc-view" onclick="viewResume('${r.id}')"><i class="bi bi-eye me-1"></i>View</button>
+          <button class="rc-btn rc-del" onclick="deleteResume('${r.id}')"><i class="bi bi-trash me-1"></i>Delete</button>
+        </div>
+      </div>`).join('')}</div>`;
+  }
+  wrap.innerHTML=html;
+}
+
+function viewResume(id){
+  const saved=JSON.parse(localStorage.getItem('saved_resumes')||'[]');
+  const r=saved.find(x=>x.id===id);
+  if(!r) return;
+  generatedResume=r;
+  document.getElementById('resumePreview').innerHTML=r.html;
+  renderAtsPanel(r.score);
+  showScreen('screen-resume');
+}
+
+function deleteResume(id){
+  if(!confirm('Delete this resume?')) return;
+  let saved=JSON.parse(localStorage.getItem('saved_resumes')||'[]');
+  saved=saved.filter(r=>r.id!==id);
+  localStorage.setItem('saved_resumes',JSON.stringify(saved));
+  renderProfile();
+  toast('Resume deleted','success');
+}
+
+/* ════════ TOAST ════════ */
+function toast(msg,type='success'){
+  const icons={success:'bi-check-circle-fill',warning:'bi-exclamation-triangle-fill',info:'bi-info-circle-fill'};
+  const colors={success:'var(--green)',warning:'var(--gold)',info:'var(--cyan)'};
+  const t=document.createElement('div');
+  t.className='toast-notif';
+  t.style.borderColor=colors[type]||colors.success;
+  t.innerHTML=`<i class="bi ${icons[type]||icons.success}" style="color:${colors[type]||colors.success}"></i> ${msg}`;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.classList.add('hide');setTimeout(()=>t.remove(),300);},2800);
+}
+
+/* ════════ INIT ════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  showScreen('screen-auth');
+});
+</script>
+</body>
+</html>
